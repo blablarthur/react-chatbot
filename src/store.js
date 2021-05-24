@@ -5,13 +5,10 @@ import reducers from './reducers';
 
 const productMode = (env) => {
   if (env !== 'production') {
-    return createStore(
-      reducers,
-      compose(
-        applyMiddleware(thunk),
-        window.devToolsExtension && window.devToolsExtension()
-      )
-    );
+    return createStore(reducers, compose(
+      applyMiddleware(thunk),
+      window.devToolsExtension && window.devToolsExtension()
+    ));
   }
 
   return createStore(
