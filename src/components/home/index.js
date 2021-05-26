@@ -8,9 +8,9 @@ import MessageDisplayStore from '../message-display/index';
 import { contacts, Contact } from '../message-display/contacts';
 
 const Home = () => (
-  <Container className="md">
+  <Container className="md mt-4">
     <Row>
-      <Col className="md-2">
+      <Col className="sm">
         <ListGroup>
           {contacts
             .filter(({ isInBotList }) => (
@@ -26,8 +26,8 @@ const Home = () => (
             })}
         </ListGroup>
       </Col>
-      <Col className="md-10">
-        <Card className="lg">
+      <Col className="8">
+        <Card className="md" style={{ width: '36rem' }}>
           <MessageDisplayStore />
         </Card>
       </Col>

@@ -1,4 +1,4 @@
-import React, { useCallback, useRef } from 'react';
+import React, { useCallback, useRef, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   Container, Row, Col
@@ -27,29 +27,29 @@ const Messages = ({ messages }) => (
       console.log(message + id);
       if (sender.type === contactTypes.USER) {
         return (
-          <div key={id} className="d-flex justify-content-end">
-            <div className="d-flex-column">
-              <h5 className="text-left">{sender.name}</h5>
-              <Hours date={timeSend} />
-              <div className="d-flex">
-                <p>{message}</p>
-                <img src={sender.img} className="img-thumbnail" alt="..." height="20" width="20" />
-              </div>
+          <li className="media" key={id}>
+            <div className="media-body w-75">
+              <h5 className="mt-0 mb-1 text-right">{sender.name}</h5>
+              <p className="text-right">{message}</p>
             </div>
-          </div>
+            <div className="ml-2">
+              <Hours date={timeSend} />
+            </div>
+            <img className="align-self-center ml-2" src={sender.img} alt="..." height="30" width="30" />
+          </li>
         );
       }
       return (
-        <div key={id} className="d-flex justify-content-start">
-          <div className="d-flex-column">
-            <h5>{sender.name}</h5>
+        <li className="media" key={id}>
+          <img className="align-self-center mr-2" src={sender.img} alt="..." height="30" width="30" />
+          <div className="mr-2">
             <Hours date={timeSend} />
-            <div className="d-flex">
-              <img src={sender.img} className="img-thumbnail" alt="..." height="20" width="20" />
-              <p>{message}</p>
-            </div>
           </div>
-        </div>
+          <div className="media-body w-75">
+            <h5 className="mt-0 mb-1">{sender.name}</h5>
+            <div className="p-3">{message}</div>
+          </div>
+        </li>
       );
     })}
   </div>
@@ -57,36 +57,60 @@ const Messages = ({ messages }) => (
 
 const MessageDisplay = ({ messages, toSendMessage }) => {
   const textInput = useRef(null);
+  const messagesEndRef = useRef(null);
 
-  const handleClick = (event) => {
-    if (event.key === 'Enter') {
-      const { value } = textInput.current;
-      if (value !== '') {
-        toSendMessage(value);
-        parseMessage(value);
-        textInput.current.value = '';
-      }
+  const scrollToBottom = () => {
+    messagesEndRef.current.scrollIntoView({ behavior: 'smooth' });
+  };
+
+  useEffect(() => {
+    scrollToBottom();
+  }, [messages]);
+
+  const sendAndParse = () => {
+    const { value } = textInput.current;
+    if (value !== '') {
+      toSendMessage(value);
+      parseMessage(value);
+      textInput.current.value = '';
     }
+  };
+
+  const handleInput = (event) => {
+    if (event.key === 'Enter') {
+      event.preventDefault();
+      sendAndParse();
+    }
+  };
+
+  const handleClick = () => {
+    sendAndParse();
   };
 
   return (
     <Container>
-      <Row className="md-10">
+      <Row>
         <Col>
-          <div className="media">
-            <div className="media-body">
-              <Messages messages={messages} />
-            </div>
-          </div>
+          <ul className="list-unstyled" style={{ overflowY: 'scroll', height: '400px' }}>
+            <Messages messages={messages} />
+            <div ref={messagesEndRef} />
+          </ul>
         </Col>
       </Row>
-      <Row className="md-2">
-        <input
-          ref={textInput}
-          type="text"
-          className="form-control"
-          onKeyPress={handleClick}
-        />
+      <Row>
+        <div className="input-group">
+          <input
+            ref={textInput}
+            type="text"
+            className="form-control"
+            onKeyPress={handleInput}
+          />
+          <div className="input-group-append">
+            <button className="btn btn-primary" type="button" onClick={handleClick}>
+              Send
+            </button>
+          </div>
+        </div>
       </Row>
     </Container>
   );

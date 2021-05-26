@@ -14,13 +14,6 @@ export const contacts = [
     isInBotList: false
   },
   {
-    id: 'TERM1',
-    name: 'TERMINATOR',
-    type: contactTypes.BOT,
-    img: 'https://clipground.com/images/robot-icon-clipart.jpg',
-    isInBotList: true
-  },
-  {
     id: 'BB1',
     name: 'BB-8',
     type: contactTypes.BOT,
@@ -33,6 +26,20 @@ export const contacts = [
     type: contactTypes.BOT,
     img: 'https://dl2.macupdate.com/images/icons256/7669.png?d=1479658450',
     isInBotList: true
+  },
+  {
+    id: 'RICK1',
+    name: 'RICK',
+    type: contactTypes.BOT,
+    img: 'https://i.pinimg.com/originals/6e/51/32/6e5132a90812ad1abf3711135a5cf406.png',
+    isInBotList: true
+  },
+  {
+    id: 'MORTY1',
+    name: 'MORTY',
+    type: contactTypes.BOT,
+    img: 'https://i.pinimg.com/originals/d2/33/6e/d2336eb516505c608035f832aafaa361.png',
+    isInBotList: false
   },
   {
     id: 'ALLBOT',

@@ -2,7 +2,11 @@ import { actionsType } from './actions';
 import { findContactByName } from './contacts';
 
 const initalState = [{
-  message: 'hello hmuan', id: Math.random() + 1, sender: findContactByName('BB-8'), timeSend: new Date()
+  message: `aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+  aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa`,
+  id: Math.random() + 1,
+  sender: findContactByName('ALL BOT'),
+  timeSend: new Date()
 }];
 
 const addMessage = (action, state) => {
@@ -13,10 +17,19 @@ const addMessage = (action, state) => {
     }];
 };
 
+const deleteMessage = (action, state) => {
+  const newState = state.filter((message) => (
+    message.message !== action.message
+  ));
+  return newState;
+};
+
 const messages = (state = initalState, action) => {
   switch (action.type) {
     case actionsType.SEND_MESSAGE:
       return addMessage(action, state);
+    case actionsType.DELETE_MESSAGE:
+      return deleteMessage(action, state);
     default:
       return state;
   }

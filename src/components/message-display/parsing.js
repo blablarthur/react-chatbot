@@ -1,20 +1,24 @@
-import { help, callApiRandomStarWarsCharacter, sarahconnor } from './parsingActions';
+import {
+  help, callApiRandomStarWarsCharacter, force, callApiRandomRickCharacter, morty
+} from './parsingActions';
 
 const parseMessage = (message) => {
-  console.log('dispatch correctly');
-  switch (message) {
+  const separateMsg = message.split(' ');
+  switch (separateMsg[0]) {
     case '/help':
       help();
       break;
     case '/force':
+      force();
       break;
     case '/starwarscharacter':
       callApiRandomStarWarsCharacter();
       break;
-    case '/sarahconnor':
-      sarahconnor();
+    case '/whichrickami':
+      callApiRandomRickCharacter();
       break;
-    case '/terminatormovie':
+    case '/morty':
+      morty();
       break;
     case '/whoami':
       break;
