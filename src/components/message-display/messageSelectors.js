@@ -1,1 +1,3 @@
-export const messageSelector = (messages) => messages;
+const messagesSelector = ({ messages }) => messages;
+
+export default messagesSelector;

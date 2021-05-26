@@ -1,19 +1,19 @@
 import React, { useCallback, useRef } from 'react';
-import { connect, useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   Container, Row, Col
 } from 'react-bootstrap';
-import { sendMessage, parseMessage } from './actions';
-import contactTypes from './contactTypes';
-import { messageSelector } from './messageSelectors';
+import { sendMessage } from './actions';
+import { contactTypes, findContactByName } from './contacts';
+import messagesSelector from './messageSelectors';
+import parseMessage from './parsing';
 
-const Hours = () => {
-  const today = new Date();
-  const date = today.toLocaleTimeString(navigator.language, { hour: '2-digit', minute: '2-digit' });
+const Hours = ({ date }) => {
+  const dateRefactored = date.toLocaleTimeString(navigator.language, { hour: '2-digit', minute: '2-digit' });
   return (
     <div>
       <small className="form-text text-muted">
-        {date}
+        {dateRefactored}
       </small>
     </div>
   );
@@ -21,37 +21,49 @@ const Hours = () => {
 
 const Messages = ({ messages }) => (
   <div>
-    {messages.map(({ message, id, sender }) => {
+    {messages.map(({
+      message, id, sender, timeSend
+    }) => {
       console.log(message + id);
-      if (sender === contactTypes.USER) {
+      if (sender.type === contactTypes.USER) {
         return (
           <div key={id} className="d-flex justify-content-end">
             <div className="d-flex-column">
-              <Hours />
-              <p>{message}</p>
+              <h5 className="text-left">{sender.name}</h5>
+              <Hours date={timeSend} />
+              <div className="d-flex">
+                <p>{message}</p>
+                <img src={sender.img} className="img-thumbnail" alt="..." height="20" width="20" />
+              </div>
             </div>
           </div>
         );
       }
       return (
-        <div key={id} className="d-flex-column justify-content-start">
-          <Hours />
-          <p>{message}</p>
+        <div key={id} className="d-flex justify-content-start">
+          <div className="d-flex-column">
+            <h5>{sender.name}</h5>
+            <Hours date={timeSend} />
+            <div className="d-flex">
+              <img src={sender.img} className="img-thumbnail" alt="..." height="20" width="20" />
+              <p>{message}</p>
+            </div>
+          </div>
         </div>
       );
     })}
   </div>
 );
 
-const MessageDisplay = ({ messages, dispatch }) => {
+const MessageDisplay = ({ messages, toSendMessage }) => {
   const textInput = useRef(null);
 
   const handleClick = (event) => {
     if (event.key === 'Enter') {
       const { value } = textInput.current;
       if (value !== '') {
-        dispatch(sendMessage(value, contactTypes.USER));
-        dispatch(parseMessage(value));
+        toSendMessage(value);
+        parseMessage(value);
         textInput.current.value = '';
       }
     }
@@ -62,11 +74,7 @@ const MessageDisplay = ({ messages, dispatch }) => {
       <Row className="md-10">
         <Col>
           <div className="media">
-            <div className="media-left">
-              <img src="https://www.pinterest.com/pin/726486983620498106/" className="media-object" alt="..." />
-            </div>
             <div className="media-body">
-              <h4 className="media-heading">John Doe</h4>
               <Messages messages={messages} />
             </div>
           </div>
@@ -85,16 +93,17 @@ const MessageDisplay = ({ messages, dispatch }) => {
 };
 
 const MessageDisplayStore = () => {
-  const messagesSelector = useSelector(messageSelector);
+  const messages = useSelector(messagesSelector);
   const dispatch = useDispatch();
   const toSendMessage = useCallback((message) => (
-    dispatch(sendMessage(message, contactTypes.USER))
+    dispatch(sendMessage(message, findContactByName('Arthur')))
   ), []);
+  return (
+    <MessageDisplay
+      toSendMessage={toSendMessage}
+      messages={messages}
+    />
+  );
+};
 
-}
-
-const mapToProps = (state) => ({
-  messages: state.messages
-});
-
-export default connect(mapToProps)(MessageDisplay);
+export default MessageDisplayStore;

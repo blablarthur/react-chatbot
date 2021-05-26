@@ -4,28 +4,31 @@ import {
   Col, Container, ListGroup, ListGroupItem, Row
 } from 'react-bootstrap';
 
-import MessageDisplay from '../message-display/index';
+import MessageDisplayStore from '../message-display/index';
+import { contacts, Contact } from '../message-display/contacts';
 
 const Home = () => (
   <Container className="md">
     <Row>
       <Col className="md-2">
         <ListGroup>
-          <ListGroupItem>
-            <img src="https://clipground.com/images/robot-icon-clipart.jpg" alt="..." width="60" heigth="60" />
-            Terminator
-          </ListGroupItem>
-          <ListGroupItem>
-            BB06
-          </ListGroupItem>
-          <ListGroupItem>
-            Roger
-          </ListGroupItem>
+          {contacts
+            .filter(({ isInBotList }) => (
+              isInBotList
+            ))
+            .map(({ name, id, img }) => {
+              console.log(name);
+              return (
+                <ListGroupItem key={id}>
+                  <Contact name={name} img={img} />
+                </ListGroupItem>
+              );
+            })}
         </ListGroup>
       </Col>
       <Col className="md-10">
         <Card className="lg">
-          <MessageDisplay />
+          <MessageDisplayStore />
         </Card>
       </Col>
     </Row>

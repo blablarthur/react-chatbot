@@ -1,27 +1,22 @@
 import { actionsType } from './actions';
-import contactTypes from './contactTypes';
+import { findContactByName } from './contacts';
 
-const initalState = [{ message: 'hello hmuan', id: Math.random() + 1, sender: contactTypes.BOT }];
+const initalState = [{
+  message: 'hello hmuan', id: Math.random() + 1, sender: findContactByName('BB-8'), timeSend: new Date()
+}];
 
-const addMessage = (action, state) => ([...state,
-  { message: action.message, id: Math.random() + 1, sender: action.sender }]);
-
-const parseMessage = (action, state) => {
-  console.log('dispatch correctly');
-  switch (action.message) {
-    case '/help':
-      return addMessage({ message: 'here. you will be ok.', sender: contactTypes.BOT }, state);
-    default:
-      return state;
-  }
+const addMessage = (action, state) => {
+  const date = new Date();
+  return [...state,
+    {
+      message: action.message, id: Math.random() + 1, sender: action.sender, timeSend: date
+    }];
 };
 
 const messages = (state = initalState, action) => {
   switch (action.type) {
     case actionsType.SEND_MESSAGE:
       return addMessage(action, state);
-    case actionsType.PARSE_MESSAGE:
-      return parseMessage(action, state);
     default:
       return state;
   }
