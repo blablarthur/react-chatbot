@@ -1,5 +1,7 @@
 import {
-  help, callApiRandomStarWarsCharacter, force, callApiRandomRickCharacter, morty
+  help, callApiRandomStarWarsCharacter, force, callApiRandomRickCharacter, morty,
+  callApiRandomActivity,
+  halMovie
 } from './parsingActions';
 
 const parseMessage = (message) => {
@@ -20,9 +22,13 @@ const parseMessage = (message) => {
     case '/morty':
       morty();
       break;
-    case '/whoami':
+    case '/halmovie':
+      halMovie();
       break;
-    case '/2001apicall':
+    case '/activity':
+      if (separateMsg.length === 2) {
+        callApiRandomActivity(separateMsg[1]);
+      }
       break;
     default:
       break;

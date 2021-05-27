@@ -10,7 +10,7 @@ import { contacts, Contact } from '../message-display/contacts';
 const Home = () => (
   <Container className="md mt-4">
     <Row>
-      <Col className="sm">
+      <Col className="sm-4">
         <ListGroup>
           {contacts
             .filter(({ isInBotList }) => (
@@ -26,8 +26,8 @@ const Home = () => (
             })}
         </ListGroup>
       </Col>
-      <Col className="8">
-        <Card className="md" style={{ width: '36rem' }}>
+      <Col className="sm-8">
+        <Card className="md" style={{ width: '48rem' }}>
           <MessageDisplayStore />
         </Card>
       </Col>

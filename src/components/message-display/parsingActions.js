@@ -57,15 +57,42 @@ export const morty = () => {
   }, 6500);
 };
 
+export const callApiRandomActivity = (nbParticipants) => {
+  const url = `https://www.boredapi.com/api/activity?participants=${nbParticipants}`;
+
+  axios.get(url).then((response) => {
+    console.log(response);
+    const data = {
+      name: response.data.activity,
+      price: response.data.price,
+      participants: response.data.participants,
+      type: response.data.type
+    };
+    console.log(data);
+    const message = `For ${data.participants} people, I advise you to do ${data.name} ! It is a ${data.type} activity ! From 0 to 1, it will cost you ${data.price}.`;
+    productMode.dispatch(sendMessage(message, findContactByName('HAL')));
+  }).catch(() => {
+    const message = 'Weird. We did not find any activity for you.';
+    productMode.dispatch(sendMessage(message, findContactByName('HAL')));
+  });
+};
+
+export const halMovie = () => {
+  const message = "I come from the famous movie 2001: A space odyssey. And if you're wondering, I won.";
+
+  productMode.dispatch(sendMessage(message, findContactByName('HAL')));
+};
+
 export const help = () => {
-  const message = `Hello comrade ! You can use several command for which we will grant you answers. Here is a list:
-  - /help (obviously)
+  const message = `Hello comrade ! You can use several command for which we will grant you answers.
+  Here is a list:
+  - /help 
   - /starwarscharacter
   - /force
-  - /sarahconnor
-  - /terminatormovie
-  - /whoami
-  - /2001apicall
+  - /activity [nbParticipants]
+  - /halmovie
+  - /whichrickami
+  - /morty
   Enjoy !`;
 
   productMode.dispatch(sendMessage(message, findContactByName('ALL BOT')));
