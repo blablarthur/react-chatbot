@@ -2,10 +2,9 @@ import { actionsType } from './actions';
 import { findContactByName } from './contacts';
 
 const initalState = [{
-  message: `aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-  aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa`,
+  message: 'Hello there ! Use the /help command to get more informations about what we can do for you !',
   id: Math.random() + 1,
-  sender: findContactByName('ALL BOT'),
+  sender: findContactByName('BB-8'),
   timeSend: new Date()
 }];
 

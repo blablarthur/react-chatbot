@@ -27,14 +27,12 @@ export const callApiRandomRickCharacter = () => {
   const url = 'https://rickandmortyapi.com/api/character/?name=rick';
 
   axios.get(url).then((response) => {
-    console.log(response);
     const choosenRick = response.data.results[randomRickNumber];
     const data = {
       name: choosenRick.name,
       species: choosenRick.species,
       location: choosenRick.location.name
     };
-    console.log(choosenRick);
     const message = `You match with ${data.name} ! You live in ${data.location}. Your Rick is a ${data.species}.`;
     productMode.dispatch(sendMessage(message, findContactByName('RICK')));
   }).catch(() => {
@@ -61,14 +59,12 @@ export const callApiRandomActivity = (nbParticipants) => {
   const url = `https://www.boredapi.com/api/activity?participants=${nbParticipants}`;
 
   axios.get(url).then((response) => {
-    console.log(response);
     const data = {
       name: response.data.activity,
       price: response.data.price,
       participants: response.data.participants,
       type: response.data.type
     };
-    console.log(data);
     const message = `For ${data.participants} people, I advise you to do ${data.name} ! It is a ${data.type} activity ! From 0 to 1, it will cost you ${data.price}.`;
     productMode.dispatch(sendMessage(message, findContactByName('HAL')));
   }).catch(() => {
@@ -84,22 +80,25 @@ export const halMovie = () => {
 };
 
 export const help = () => {
-  const message = `Hello comrade ! You can use several command for which we will grant you answers.
-  Here is a list:
-  - /help 
-  - /starwarscharacter
-  - /force
-  - /activity [nbParticipants]
-  - /halmovie
-  - /whichrickami
-  - /morty
-  Enjoy !`;
+  const messageBB8 = `Hello there again ! You wonder what StarWars Character you look like ? Type /starwarscharacter !
+  Use the /force command to be more powerful ! Enjoy !`;
 
-  productMode.dispatch(sendMessage(message, findContactByName('ALL BOT')));
+  productMode.dispatch(sendMessage(messageBB8, findContactByName('BB-8')));
+
+  const messageHAL = `Hey ! I can provide you activities if you feel bored. For that use the /activity [nbParticipants] command.
+  Also, if you wonder from which movie I come from, type /halmovie`;
+
+  productMode.dispatch(sendMessage(messageHAL, findContactByName('HAL')));
+
+  const messageRICK = `*Burrrp* oh. Use the dumb command /whichrickami to be a super cool dumb human.
+  It's was morty idea. Oh, also you can call /morty if you want but we're going to be busy so wait a little. MORTY pack your things we're going on some hunting !`;
+
+  productMode.dispatch(sendMessage(messageRICK, findContactByName('RICK')));
 };
 
 export const force = () => {
-  const message = 'The force is strong in your family.';
-
-  productMode.dispatch(sendMessage(message, findContactByName('BB-8')));
+  setTimeout(() => {
+    const message2 = 'Wow ! Have you seen that ! Was it my powers or .. ?';
+    productMode.dispatch(sendMessage(message2, findContactByName('BB-8')));
+  }, 3000);
 };

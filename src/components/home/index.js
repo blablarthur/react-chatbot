@@ -1,6 +1,5 @@
 import React from 'react';
 import {
-  Card,
   Col, Container, ListGroup, ListGroupItem, Row
 } from 'react-bootstrap';
 
@@ -16,20 +15,15 @@ const Home = () => (
             .filter(({ isInBotList }) => (
               isInBotList
             ))
-            .map(({ name, id, img }) => {
-              console.log(name);
-              return (
-                <ListGroupItem key={id}>
-                  <Contact name={name} img={img} />
-                </ListGroupItem>
-              );
-            })}
+            .map(({ name, id, img }) => (
+              <ListGroupItem key={id}>
+                <Contact name={name} img={img} />
+              </ListGroupItem>
+            ))}
         </ListGroup>
       </Col>
       <Col className="sm-8">
-        <Card className="md" style={{ width: '48rem' }}>
-          <MessageDisplayStore />
-        </Card>
+        <MessageDisplayStore />
       </Col>
     </Row>
   </Container>

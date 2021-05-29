@@ -54,12 +54,9 @@ export const findContactByName = (nameRef) => (
   contacts.find(({ name }) => name === nameRef)
 );
 
-export const Contact = ({ name, img }) => {
-  console.log(name + img);
-  return (
-    <div className="d-flex justify-content-center">
-      <img src={img} alt="..." width="60" heigth="60" />
-      <h2>{name}</h2>
-    </div>
-  );
-};
+export const Contact = ({ name, img }) => (
+  <div className="d-flex justify-content-center">
+    <img src={img} alt="..." width="60" heigth="60" />
+    <h2>{name}</h2>
+  </div>
+);

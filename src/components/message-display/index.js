@@ -1,12 +1,13 @@
 import React, { useCallback, useRef, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
-  Container, Row, Col
+  Container, Row, Col, Card
 } from 'react-bootstrap';
 import { sendMessage } from './actions';
 import { contactTypes, findContactByName } from './contacts';
 import messagesSelector from './messageSelectors';
 import parseMessage from './parsing';
+import '../../style.css';
 
 const Hours = ({ date }) => {
   const dateRefactored = date.toLocaleTimeString(navigator.language, { hour: '2-digit', minute: '2-digit' });
@@ -24,7 +25,6 @@ const Messages = ({ messages }) => (
     {messages.map(({
       message, id, sender, timeSend
     }) => {
-      console.log(message + id);
       if (sender.type === contactTypes.USER) {
         return (
           <li className="media" key={id}>
@@ -57,6 +57,7 @@ const Messages = ({ messages }) => (
 
 const MessageDisplay = ({ messages, toSendMessage }) => {
   const textInput = useRef(null);
+  const card = useRef(null);
   const messagesEndRef = useRef(null);
 
   const scrollToBottom = () => {
@@ -65,6 +66,16 @@ const MessageDisplay = ({ messages, toSendMessage }) => {
 
   useEffect(() => {
     scrollToBottom();
+    console.log(messages[messages.length - 1].message);
+    if (messages[messages.length - 1].message === '/force') {
+      const cardForEffect = card.current;
+      cardForEffect.classList.add('animationShakingEffect');
+
+      return function cleanup() {
+        cardForEffect.classList.remove('animationShakingEffect');
+      };
+    }
+    return undefined;
   }, [messages]);
 
   const sendAndParse = () => {
@@ -88,31 +99,33 @@ const MessageDisplay = ({ messages, toSendMessage }) => {
   };
 
   return (
-    <Container>
-      <Row>
-        <Col>
-          <ul className="list-unstyled" style={{ overflowY: 'scroll', height: '400px' }}>
-            <Messages messages={messages} />
-            <div ref={messagesEndRef} />
-          </ul>
-        </Col>
-      </Row>
-      <Row>
-        <div className="input-group">
-          <input
-            ref={textInput}
-            type="text"
-            className="form-control"
-            onKeyPress={handleInput}
-          />
-          <div className="input-group-append">
-            <button className="btn btn-primary" type="button" onClick={handleClick}>
-              Send
-            </button>
+    <Card ref={card} className="md" style={{ width: '48rem' }}>
+      <Container>
+        <Row>
+          <Col>
+            <ul className="list-unstyled" style={{ overflowY: 'scroll', height: '400px' }}>
+              <Messages messages={messages} />
+              <div ref={messagesEndRef} />
+            </ul>
+          </Col>
+        </Row>
+        <Row>
+          <div className="input-group">
+            <input
+              ref={textInput}
+              type="text"
+              className="form-control"
+              onKeyPress={handleInput}
+            />
+            <div className="input-group-append">
+              <button className="btn btn-primary" type="button" onClick={handleClick}>
+                Send
+              </button>
+            </div>
           </div>
-        </div>
-      </Row>
-    </Container>
+        </Row>
+      </Container>
+    </Card>
   );
 };
 
