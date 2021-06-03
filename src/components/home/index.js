@@ -9,8 +9,8 @@ import { contacts, Contact } from '../message-display/contacts';
 const Home = () => (
   <Container className="md mt-4">
     <Row>
-      <Col className="sm-4">
-        <ListGroup>
+      <Col className="sm">
+        <ListGroup className="sm">
           {contacts
             .filter(({ isInBotList }) => (
               isInBotList

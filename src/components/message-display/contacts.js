@@ -1,4 +1,5 @@
 import React from 'react';
+import { Col, Row } from 'react-bootstrap';
 
 export const contactTypes = {
   USER: 'USER',
@@ -55,8 +56,15 @@ export const findContactByName = (nameRef) => (
 );
 
 export const Contact = ({ name, img }) => (
-  <div className="d-flex justify-content-center">
-    <img src={img} alt="..." width="60" heigth="60" />
-    <h2>{name}</h2>
-  </div>
+  <Row>
+    <Col className="md-4">
+      <div className="d-flex justify-content-start">
+        <img src={img} className="img-thumbnail float-start" alt="..." width="60" heigth="60" />
+      </div>
+      <h2 className="text-start" color="orange">{name}</h2>
+    </Col>
+    {/*     <Col className="md-8">
+      <h2 className="text-start" color="orange">{name}</h2>
+    </Col> */}
+  </Row>
 );
